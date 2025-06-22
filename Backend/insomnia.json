@@ -1,0 +1,515 @@
+type: collection.insomnia.rest/5.0
+name: API Local
+meta:
+  id: wrk_859881dd7f6f4f4a9a33bf1a08791862
+  created: 1750600983087
+  modified: 1750600983087
+  description: ""
+collection:
+  - name: Utilidad y Testing
+    meta:
+      id: fld_4cfe177938d74133bbf5dbd452ef4acb
+      created: 0
+      modified: 1750602538769
+      sortKey: -1750600983121
+      description: ""
+    children:
+      - url: "{{ _.base_url }}/slow?delay=3000"
+        name: Slow Response
+        meta:
+          id: req_31bec97c088f487ba391b46e58fceed1
+          created: 0
+          modified: 0
+          isPrivate: false
+          description: ""
+          sortKey: -18
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/health"
+        name: Health Check
+        meta:
+          id: req_3a38c7edec4546d496a3d9d326671a13
+          created: 0
+          modified: 0
+          isPrivate: false
+          description: ""
+          sortKey: -17
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/error"
+        name: Simular Error
+        meta:
+          id: req_3e149577dc604473923dc3a79ca6594f
+          created: 0
+          modified: 0
+          isPrivate: false
+          description: ""
+          sortKey: -19
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}"
+        name: Info API
+        meta:
+          id: req_cc662769c3a04d7c9cc30466808f9c64
+          created: 0
+          modified: 0
+          isPrivate: false
+          description: ""
+          sortKey: -16
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Autenticación
+    meta:
+      id: fld_67b816cdee7c475f92a1ec79c1fedc2e
+      created: 0
+      modified: 1750603511525
+      sortKey: -1750600983119.5
+      description: ""
+    children:
+      - name: Protegido
+        meta:
+          id: fld_73be3e9b7d874f619b9439b06820bd33
+          created: 0
+          modified: 1750603537505
+          sortKey: 99
+          description: ""
+        children:
+          - url: "{{ _.base_url }}/auth/profile"
+            name: Perfil Usuario
+            meta:
+              id: req_02a2c5c4b2cf46a6ad936c22e334be7c
+              created: 0
+              modified: 0
+              isPrivate: false
+              description: ""
+              sortKey: -3
+            method: GET
+            headers:
+              - name: Authorization
+                value: Bearer {{ _.jwt_token }}
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/auth/users"
+            name: Listar Usuarios (Auth)
+            meta:
+              id: req_41c47701eff541ef9cf72e6622d8471e
+              created: 0
+              modified: 1750603434561
+              isPrivate: false
+              description: ""
+              sortKey: -4
+            method: GET
+            headers:
+              - name: Authorization
+                value: Bearer {{ _.jwt_token }}
+                id: pair_beccea852b4a4ba2b1b63ca8373c6ef8
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - url: "{{ _.base_url }}/auth/register"
+        name: Registro
+        meta:
+          id: req_3c35f906008049999cbe188d88055650
+          created: 0
+          modified: 1750602581697
+          isPrivate: false
+          description: ""
+          sortKey: -1
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "name": "Nuevo Usuario Curl",
+              "email": "curl@example.com",
+              "password": "abc1234"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/auth/login"
+        name: Login
+        meta:
+          id: req_f7d05a3c9ee447a88f42dd6d12a06c95
+          created: 0
+          modified: 1750603460263
+          isPrivate: false
+          description: ""
+          sortKey: -2
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "email": "juan@example.com",
+              "password": "abc1234"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        scripts:
+          afterResponse: |-
+            const jsonBody = insomnia.response.json();
+            console.log(jsonBody);
+
+            if (jsonBody.token) {
+            	insomnia.environment.set('jwt_token',jsonBody.token)	
+            	console.log('✅ Token guardado como jwt_token');
+            } else {
+            	console.warn('⚠️ No se encontró token en la respuesta');
+            }
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Posts
+    meta:
+      id: fld_b9dd5b609a0c40e88c955f564cb19870
+      created: 0
+      modified: 1750602540815
+      sortKey: -1750600983118
+      description: ""
+    children:
+      - url: "{{ _.base_url }}/posts/1"
+        name: Actualizar Post
+        meta:
+          id: req_194f071ae9304b76be668f4a5b6c13cb
+          created: 0
+          modified: 0
+          isPrivate: false
+          description: ""
+          sortKey: -14
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "title": "Título del post actualizado",
+              "content": "Contenido actualizado."
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: Authorization
+            value: Bearer {{ _.jwt_token }}
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/posts/1"
+        name: Post por ID
+        meta:
+          id: req_3c8e4a298cf549a5a14d5e0b5af868bb
+          created: 0
+          modified: 0
+          isPrivate: false
+          description: ""
+          sortKey: -11
+        method: GET
+        headers:
+          - name: Authorization
+            value: Bearer {{ _.jwt_token }}
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/posts/user/1"
+        name: Posts por Usuario
+        meta:
+          id: req_45ed78641d914770acf76e50c5291397
+          created: 0
+          modified: 0
+          isPrivate: false
+          description: ""
+          sortKey: -12
+        method: GET
+        headers:
+          - name: Authorization
+            value: Bearer {{ _.jwt_token }}
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/posts/1"
+        name: Eliminar Post
+        meta:
+          id: req_55a1a8c820624a3bbf0baa4fb8e1fb8f
+          created: 0
+          modified: 0
+          isPrivate: false
+          description: ""
+          sortKey: -15
+        method: DELETE
+        headers:
+          - name: Authorization
+            value: Bearer {{ _.jwt_token }}
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/posts"
+        name: Listar Posts
+        meta:
+          id: req_64508c868b0b43e7939cde03b0af1d33
+          created: 0
+          modified: 0
+          isPrivate: false
+          description: ""
+          sortKey: -10
+        method: GET
+        headers:
+          - name: Authorization
+            value: Bearer {{ _.jwt_token }}
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/posts"
+        name: Crear Post
+        meta:
+          id: req_871dad098a6b4116954a209fdebd0412
+          created: 0
+          modified: 0
+          isPrivate: false
+          description: ""
+          sortKey: -13
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "title": "Mi post desde cURL",
+              "content": "Este es el contenido de mi nuevo post.",
+              "userId": 1
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: Authorization
+            value: Bearer {{ _.jwt_token }}
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Usuarios
+    meta:
+      id: fld_f99188c3e558447ea7767caee94b2d9b
+      created: 0
+      modified: 1750602542583
+      sortKey: -1750600983115
+      description: ""
+    children:
+      - url: "{{ _.base_url }}/users/1"
+        name: Eliminar Usuario
+        meta:
+          id: req_181dbb9094644e19bb2325ad90581c97
+          created: 0
+          modified: 0
+          isPrivate: false
+          description: ""
+          sortKey: -9
+        method: DELETE
+        headers:
+          - name: Authorization
+            value: Bearer {{ _.jwt_token }}
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/users/1"
+        name: Actualizar Usuario
+        meta:
+          id: req_42778ccb00b84456a7c07ad5f81c2f1a
+          created: 0
+          modified: 0
+          isPrivate: false
+          description: ""
+          sortKey: -8
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "name": "Nombre Actualizado"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: Authorization
+            value: Bearer {{ _.jwt_token }}
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/users"
+        name: Crear Usuario
+        meta:
+          id: req_4f70cd319493453ca6d4e70b7148c931
+          created: 0
+          modified: 0
+          isPrivate: false
+          description: ""
+          sortKey: -7
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "name": "Usuario Creado Curl",
+              "email": "creado_curl@example.com",
+              "password": "password123"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: Authorization
+            value: Bearer {{ _.jwt_token }}
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/users/1"
+        name: Usuario por ID
+        meta:
+          id: req_d770f5a15d404e7994c5822ef00a0817
+          created: 0
+          modified: 0
+          isPrivate: false
+          description: ""
+          sortKey: -6
+        method: GET
+        headers:
+          - name: Authorization
+            value: Bearer {{ _.jwt_token }}
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/users"
+        name: Listar Usuarios
+        meta:
+          id: req_fd74b0ab7e4a4806b079dcf22094fb70
+          created: 0
+          modified: 0
+          isPrivate: false
+          description: ""
+          sortKey: -5
+        method: GET
+        headers:
+          - name: Authorization
+            value: Bearer {{ _.jwt_token }}
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_c0fe12792473ff48d3017f03664b4a837c679dd5
+    created: 1750600985225
+    modified: 1750603462125
+environments:
+  name: Base Environment
+  meta:
+    id: env_bfce6dfe3f204114b03dc223d63afcde
+    created: 0
+    modified: 1750603462128
+    isPrivate: false
+  data:
+    base_url: http://localhost:3000/api
+    jwt_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoianVhbkBleGFtcGxlLmNvbSIsIm5hbWUiOiJKdWFuIFDDqXJleiIsImlhdCI6MTc1MDYwMzQ2MiwiZXhwIjoxNzUwNjg5ODYyfQ.GO8TP61CHM49pyYL2uV5naqk65FDm0dSYThiK42r3qk
