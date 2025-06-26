@@ -29,7 +29,8 @@ const authMiddleware = {
       const decoded = authService.verifyToken(token);
 
       // Agregar información del usuario al request
-      console.log(`🔓 Token válido. Payload:`, decoded);
+      console.log('🔓 Token válido. Payload: ', decoded);
+      console.log(`Token: ${token}`);
       req.user = decoded;
       next();
     } catch (error) {

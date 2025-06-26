@@ -51,6 +51,19 @@ const utilityController = {
       });
     }
   },
+
+  // Resetear datos mockeados
+  resetMockData: (req, res) => {
+    try {
+      const result = utilityService.resetMockData();
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({
+        error: 'Error al resetear datos mockeados',
+        message: error.message,
+      });
+    }
+  },
 };
 
 module.exports = utilityController;

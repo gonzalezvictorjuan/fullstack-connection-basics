@@ -1,3 +1,8 @@
+// Este archivo define los datos mockeados de usuarios y posts para la aplicación.
+// Se utiliza JSON.parse(JSON.stringify(...)) para crear una copia profunda de los datos originales,
+// evitando que los cambios en tiempo de ejecución afecten la versión original.
+// Así, es posible restaurar los datos mockeados a su estado inicial cuando se requiera.
+
 // Datos mockeados para la aplicación
 
 // Usuarios mockeados con contraseña encriptada >> "abc1234"
@@ -22,6 +27,8 @@ const users = [
   },
 ];
 
+const originalUsers = JSON.parse(JSON.stringify(users));
+
 // Posts mockeados
 const posts = [
   {
@@ -44,7 +51,40 @@ const posts = [
   },
 ];
 
+const originalPosts = JSON.parse(JSON.stringify(posts));
+
+// Animales mockeados
+const animals = [
+  {
+    id: 1,
+    nombre: 'Firulais',
+    especie: 'Perro',
+    edad: 5,
+    color: 'Marrón',
+  },
+  {
+    id: 2,
+    nombre: 'Misu',
+    especie: 'Gato',
+    edad: 3,
+    color: 'Negro',
+  },
+  {
+    id: 3,
+    nombre: 'Lola',
+    especie: 'Conejo',
+    edad: 2,
+    color: 'Blanco',
+  },
+];
+
+const originalAnimals = JSON.parse(JSON.stringify(animals));
+
 module.exports = {
   users,
   posts,
+  originalUsers,
+  originalPosts,
+  animals,
+  originalAnimals,
 };

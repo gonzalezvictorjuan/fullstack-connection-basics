@@ -366,6 +366,141 @@ collection:
             send: true
             store: true
           rebuildPath: true
+  - name: Animales
+    meta:
+      id: fld_animales_1234567890abcdef
+      created: 0
+      modified: 1750602540815
+      sortKey: -1750600983117
+      description: ""
+    children:
+      - url: "{{ _.base_url }}/auth/animals"
+        name: Listar Animales
+        meta:
+          id: req_animales_list_1234567890abcdef
+          created: 0
+          modified: 0
+          isPrivate: false
+          description: ""
+          sortKey: -20
+        method: GET
+        headers:
+          - name: Authorization
+            value: Bearer {{ _.jwt_token }}
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/auth/animals/1"
+        name: Animal por ID
+        meta:
+          id: req_animales_get_1234567890abcdef
+          created: 0
+          modified: 0
+          isPrivate: false
+          description: ""
+          sortKey: -21
+        method: GET
+        headers:
+          - name: Authorization
+            value: Bearer {{ _.jwt_token }}
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/auth/animals"
+        name: Crear Animal
+        meta:
+          id: req_animales_create_1234567890abcdef
+          created: 0
+          modified: 0
+          isPrivate: false
+          description: ""
+          sortKey: -22
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "nombre": "Luna",
+              "especie": "Perro",
+              "edad": 3,
+              "color": "Negro"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: Authorization
+            value: Bearer {{ _.jwt_token }}
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/auth/animals/1"
+        name: Actualizar Animal
+        meta:
+          id: req_animales_update_1234567890abcdef
+          created: 0
+          modified: 0
+          isPrivate: false
+          description: ""
+          sortKey: -23
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+              "nombre": "Luna",
+              "especie": "Perro",
+              "edad": 4,
+              "color": "Negro"
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: Authorization
+            value: Bearer {{ _.jwt_token }}
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/auth/animals/1"
+        name: Eliminar Animal
+        meta:
+          id: req_animales_delete_1234567890abcdef
+          created: 0
+          modified: 0
+          isPrivate: false
+          description: ""
+          sortKey: -24
+        method: DELETE
+        headers:
+          - name: Authorization
+            value: Bearer {{ _.jwt_token }}
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
   - name: Usuarios
     meta:
       id: fld_f99188c3e558447ea7767caee94b2d9b

@@ -1,0 +1,94 @@
+body {
+  padding: 30px;
+  background: #f8f9fa;
+}
+.dashboard-container {
+  max-width: 1024px;
+  margin: 0 auto;
+}
+#loginSection,
+#postsSection {
+  margin-top: 30px;
+}
+.table-editable td input {
+  width: 100%;
+  border: none;
+  background: transparent;
+}
+/* Transiciones para botones y filas */
+.fade-transition {
+  width: auto;
+  max-width: 200px;
+  transition: max-width 0.5s cubic-bezier(0.4, 0, 0.2, 1), padding 0.5s,
+    margin 0.5s;
+  overflow: hidden;
+  display: inline-block;
+}
+.fade-hide {
+  max-width: 0 !important;
+  width: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  border: 0 !important;
+  pointer-events: none;
+  position: absolute !important;
+  left: -9999px !important;
+  display: inline-block !important;
+}
+.fade-show {
+  max-width: 200px !important;
+  pointer-events: auto;
+  display: inline-block !important;
+}
+/* Transición para filas de la tabla */
+.row-fade-enter {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.5s, transform 0.5s;
+}
+.row-fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+.row-fade-exit {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s, transform 0.5s;
+}
+.row-fade-exit-active {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.actions-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.row-editing td {
+  transition: background-color 0.3s;
+  background-color: #e6fff2 !important;
+}
+.btn-cancelar-custom {
+  background-color: #ffb84d !important; /* Naranja suave */
+  border-color: #ffb84d !important;
+  color: #fff !important;
+}
+.btn-cancelar-custom:hover,
+.btn-cancelar-custom:focus {
+  background-color: #ff8800 !important;
+  border-color: #ff8800 !important;
+  color: #fff !important;
+}
+.btn-editar-custom {
+  background-color: #fff7cc !important; /* Amarillo muy tenue */
+  border-color: #fff7cc !important;
+  color: #856404 !important;
+}
+.btn-editar-custom:hover,
+.btn-editar-custom:focus {
+  background-color: #ffe066 !important;
+  border-color: #ffe066 !important;
+}

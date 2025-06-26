@@ -17,7 +17,7 @@ Servidor backend con Node.js y Express para ejemplos de conexiones API.
 - Configuración de **CORS** para permitir peticiones desde el frontend ↔️
 - Manejo de **variables de entorno** con `dotenv` 🤫
 - **Auto-reload** durante el desarrollo con `nodemon` 🔄
-- **API RESTful** con endpoints para usuarios y posts 📦
+- **API RESTful** con endpoints para usuarios, posts y animales 📦
 - **Manejo de errores centralizado** con middlewares ⚙️
 
 ## 📂 Estructura del proyecto
@@ -29,6 +29,7 @@ Backend/
 │   │   ├── auth.controller.js
 │   │   ├── user.controller.js
 │   │   ├── post.controller.js
+│   │   ├── animal.controller.js
 │   │   └── utility.controller.js
 │   ├── data/                 # Datos mockeados
 │   │   └── mock.data.js
@@ -46,10 +47,10 @@ Backend/
 │   │   ├── notFound.middleware.js
 │   │   └── validation.middleware.js
 │   └── app.js                # Configuración principal de Express
-├── index.js                 # Punto de entrada de la aplicación
-├── package.json             # Dependencias y scripts
-├── README.md                # Documentación
-└── .gitignore              # Archivos a ignorar
+├── index.js                  # Punto de entrada de la aplicación
+├── package.json              # Dependencias y scripts
+├── README.md                 # Documentación
+└── .gitignore                # Archivos a ignorar
 ```
 
 ## 📜 Convención de nomenclatura
@@ -89,7 +90,7 @@ JWT_SECRET=tu_clave_secreta_super_segura
 
 ## 🔗 Endpoints disponibles
 
-> 💡 **Tip para Insomnia:** En la raíz de la carpeta `Backend` encontrarás el archivo `insomnia.json` para importar toda la colección de endpoints y `insomnia-login-script.md` que explica cómo configurar la obtención automática del token JWT al hacer login.
+> 💡 **Tip para Insomnia:** En la raíz de la carpeta `Backend` encontrarás el archivo `insomnia.yml` para importar toda la colección de endpoints y `insomnia-login-script.md` que explica cómo configurar la obtención automática del token JWT al hacer login.
 
 ### Autenticación
 
@@ -130,14 +131,81 @@ JWT_SECRET=tu_clave_secreta_super_segura
 
 > Post, Put & Delete deberían estar protegidos con jwt, pero para este ejemplo no se realizo
 
+### Animales (Protegidos con JWT) 🐾
+
+| Método   | Ruta                    | Descripción                |
+| -------- | ----------------------- | -------------------------- |
+| `GET`    | `/api/auth/animals`     | Obtener todos los animales |
+| `GET`    | `/api/auth/animals/:id` | Obtener animal por ID      |
+| `POST`   | `/api/auth/animals`     | Crear nuevo animal         |
+| `PUT`    | `/api/auth/animals/:id` | Actualizar animal          |
+| `DELETE` | `/api/auth/animals/:id` | Eliminar animal            |
+
+#### Campos requeridos para animales
+
+Al crear o actualizar un animal, se requieren los siguientes campos:
+
+```json
+{
+  "nombre": "string",
+  "especie": "string",
+  "edad": "number",
+  "color": "string"
+}
+```
+
+#### Ejemplo de uso de endpoints de animales
+
+```bash
+# Obtener todos los animales (requiere autenticación)
+curl -H "Authorization: Bearer TU_TOKEN_JWT" \
+  http://localhost:3000/api/auth/animals
+
+# Crear un nuevo animal (requiere autenticación)
+curl -X POST http://localhost:3000/api/auth/animals \
+  -H "Authorization: Bearer TU_TOKEN_JWT" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nombre": "Luna",
+    "especie": "Perro",
+    "edad": 3,
+    "color": "Negro"
+  }'
+
+# Actualizar un animal (requiere autenticación)
+curl -X PUT http://localhost:3000/api/auth/animals/1 \
+  -H "Authorization: Bearer TU_TOKEN_JWT" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "nombre": "Luna",
+    "especie": "Perro",
+    "edad": 4,
+    "color": "Negro"
+  }'
+
+# Eliminar un animal (requiere autenticación)
+curl -X DELETE http://localhost:3000/api/auth/animals/1 \
+  -H "Authorization: Bearer TU_TOKEN_JWT"
+```
+
 ### Utilidad y Testing
 
-| Método | Ruta                   | Descripción                                 |
-| ------ | ---------------------- | ------------------------------------------- |
-| `GET`  | `/api`                 | Información del API y endpoints disponibles |
-| `GET`  | `/api/health`          | Health check del servidor                   |
-| `GET`  | `/api/slow?delay=3000` | Simular respuesta lenta (delay en ms)       |
-| `GET`  | `/api/error`           | Simular error del servidor                  |
+| Método | Ruta                   | Descripción                                                                |
+| ------ | ---------------------- | -------------------------------------------------------------------------- |
+| `GET`  | `/api`                 | Información del API y endpoints disponibles                                |
+| `GET`  | `/api/health`          | Health check del servidor                                                  |
+| `GET`  | `/api/slow?delay=3000` | Simular respuesta lenta (delay en ms)                                      |
+| `GET`  | `/api/error`           | Simular error del servidor                                                 |
+| `POST` | `/api/reset`           | **Resetear datos mockeados a valores originales (requiere autenticación)** |
+
+#### Resetear datos mockeados
+
+Este endpoint permite restaurar los usuarios y posts mockeados a sus valores originales. Solo está disponible para usuarios autenticados (requiere token JWT).
+
+```bash
+curl -X POST http://localhost:3000/api/reset \
+  -H "Authorization: Bearer TU_TOKEN_JWT"
+```
 
 ## 🔐 Autenticación JWT
 
@@ -149,7 +217,7 @@ curl -X POST http://localhost:3000/api/auth/register \
   -d '{
     "name": "Nuevo Usuario",
     "email": "nuevo@example.com",
-    "password": "1234"
+    "password": "abc1234"
   }'
 ```
 
@@ -160,7 +228,7 @@ curl -X POST http://localhost:3000/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{
     "email": "juan@example.com",
-    "password": "1234"
+    "password": "abc1234"
   }'
 ```
 
